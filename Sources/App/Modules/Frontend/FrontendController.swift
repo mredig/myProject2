@@ -2,7 +2,7 @@ import Vapor
 
 struct FrontendController {
 	func homeView(req: Request) throws -> EventLoopFuture<View> {
-		struct Context {
+		struct Context: Encodable {
 			let title: String
 			let header: String
 			let message: String

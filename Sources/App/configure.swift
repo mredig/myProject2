@@ -10,4 +10,7 @@ public func configure(_ app: Application) throws {
 	app.leaf.cache.isEnabled = app.environment.isRelease
 
     try routes(app)
+
+	let router = FrontendRouter()
+	try router.boot(routes: app.routes)
 }
