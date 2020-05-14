@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>#(title)</title>
+		<link rel="stylesheet" type="text/css" href="/css/frontend.css">
+		<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+	</head>
+	<body>
+		<header>
+			<a href="/" id="logo">
+				<img src="/images/logo.png">
+				<h1>myPage</h1>
+			</a>
+		</header>
+
+		<nav id="navigation">
+			<a href="/">Home</a> &middot;
+			<a href="/blog">Blog</a> &middot;
+			<a href="#" onclick="javascript:about();">About</a>
+		</nav>
+		<main>
+			<div id="content">
+					#import("body")
+			</div>
+		</main>
+
+		<script type="text/javascript" src="/javascript/frontend.js"></script>
+	</body>
+</html>
