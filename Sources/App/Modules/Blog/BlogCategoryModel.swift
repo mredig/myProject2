@@ -11,7 +11,7 @@ import Fluent
 final class BlogCategoryModel: Model {
 	static let schema = "blog_categories"
 
-	struct FieldKeys {
+	enum FieldKeys {
 		static var title: FieldKey { "title" }
 	}
 

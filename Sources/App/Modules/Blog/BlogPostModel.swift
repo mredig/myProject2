@@ -12,7 +12,7 @@ final class BlogPostModel: Model {
 
 	static let schema: String = "blog_posts"
 
-	struct FieldKeys {
+	enum FieldKeys {
 		static var title: FieldKey { "title" }
 		static var slug: FieldKey { "slug" }
 		static var image: FieldKey { "image" }
