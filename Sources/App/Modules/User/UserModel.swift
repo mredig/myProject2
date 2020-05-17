@@ -38,3 +38,11 @@ final class UserModel: Model {
 		self.password = password
 	}
 }
+
+extension UserModel: Authenticatable {}
+
+extension UserModel: SessionAuthenticatable {
+	typealias SessionID = UUID
+
+	var sessionID: SessionID { self.id! }
+}
