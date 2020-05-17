@@ -34,7 +34,7 @@ final class UserModel: Model {
 
 	init(id: UserModel.IDValue? = nil, email: String, password: String) {
 		self.id = id
-		self.email = email
+		self.email = email.lowercased()
 		self.password = password
 	}
 }

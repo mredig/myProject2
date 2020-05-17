@@ -19,7 +19,7 @@ struct UserModelCredentialsAuthenticator: CredentialsAuthenticator {
 	func authenticate(credentials: Credentials,
 					  for request: Request) -> EventLoopFuture<Void> {
 		UserModel.query(on: request.db)
-			.filter(\.$email == credentials.email)
+			.filter(\.$email == credentials.email.lowercased())
 		.first()
 			.map {
 				do {
