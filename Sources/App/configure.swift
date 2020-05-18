@@ -12,6 +12,11 @@ public func configure(_ app: Application) throws {
 	app.views.use(.leaf)
 	app.leaf.cache.isEnabled = app.environment.isRelease
 
+	let workingDirectory = app.directory.workingDirectory
+	app.leaf.configuration.rootDirectory = "/"
+	app.leaf.files = ModularViewFiles(workingDirectory: workingDirectory,
+									  fileio: app.fileio)
+
 	app.sessions.use(.fluent)
 	app.migrations.add(SessionRecord.migration)
 	app.middleware.use(app.sessions.middleware)
