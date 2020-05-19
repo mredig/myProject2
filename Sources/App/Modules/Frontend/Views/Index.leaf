@@ -13,13 +13,13 @@
 				<img src="/images/logo.png">
 				<h1>myPage</h1>
 			</a>
-		</header>
 
-		<nav id="navigation">
-			<a href="/">Home</a> &middot;
-			<a href="/blog">Blog</a> &middot;
-			<a href="#" onclick="javascript:about();">About</a>
-		</nav>
+			<nav id="navigation">
+				<a href="/">Home</a> &middot;
+				<a href="/blog">Blog</a> &middot;
+				<a href="#" onclick="javascript:about();">About</a>
+			</nav>
+		</header>
 		<main>
 			<div id="content">
 					#import("body")
