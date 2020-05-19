@@ -1,0 +1,10 @@
+#extend("Admin/Index"):
+	#export("body"):
+		<section class="wrapper">
+			<h2>#(header)</h2>
+		</section>
+		<section>
+			<p>#(message)</p>
+		</section>
+	#endexport
+#endextend
