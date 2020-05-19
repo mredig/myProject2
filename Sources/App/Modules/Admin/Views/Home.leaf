@@ -5,6 +5,7 @@
 		</section>
 		<section>
 			<p>#(message)</p>
+			<a href="/admin/blog/posts">Blog posts</a>
 		</section>
 	#endexport
 #endextend
