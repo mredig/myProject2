@@ -37,7 +37,7 @@ struct BlogPostAdminController {
 				return model.create(on: req.db)
 			}
 			.map {
-				req.redirect(to: "admin/blog/posts")
+				req.redirect(to: "/admin/blog/posts")
 			}
 	}
 }
