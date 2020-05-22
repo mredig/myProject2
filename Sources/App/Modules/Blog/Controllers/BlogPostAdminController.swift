@@ -15,16 +15,23 @@ struct BlogPostAdminController {
 			}
 	}
 
-	func createView(req: Request) throws -> EventLoopFuture<View> {
+	func render(req: Request, form: BlogPostEditForm) -> EventLoopFuture<View> {
 		struct Context<T: Encodable>: Encodable {
 			let edit: T
 		}
-		let context = Context(edit: BlogPostEditForm())
-		return req.view.render("Blog/Admin/Posts/Edit", context)
+		return req.view.render("Blog/Admin/Posts/Edit", Context(edit: form))
+	}
+
+	func createView(req: Request) throws -> EventLoopFuture<View> {
+		return render(req: req, form: .init())
 	}
 
 	func create(req: Request) throws -> EventLoopFuture<Response> {
 		let form = try BlogPostEditForm(req: req)
+		guard form.validate() else {
+			return render(req: req, form: form).encodeResponse(for: req)
+		}
+
 		let model = BlogPostModel()
 		model.image = "/images/posts/01.jpg"
 		form.write(to: model)
