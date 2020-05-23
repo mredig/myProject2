@@ -45,3 +45,9 @@ extension BlogCategoryModel {
 
 	var viewContext: ViewContext { .init(model: self) }
 }
+
+extension BlogCategoryModel: FormFieldOptionRepresentable {
+	var formFieldOption: FormFieldOption {
+		.init(key: id!.uuidString, label: title)
+	}
+}

@@ -9,6 +9,7 @@ final class BlogPostEditForm: Encodable {
 		var excerpt: String
 		var date: String
 		var content: String
+		var categoryId: String
 	}
 
 	var id: String? = nil
@@ -17,6 +18,7 @@ final class BlogPostEditForm: Encodable {
 	var excerpt = BasicFormField()
 	var date = BasicFormField()
 	var content = BasicFormField()
+	var categoryId = SelectionFormField()
 
 	init() {}
 
@@ -30,6 +32,7 @@ final class BlogPostEditForm: Encodable {
 		self.excerpt.value = context.excerpt
 		self.date.value = context.date
 		self.content.value = context.content
+		self.categoryId.value = context.categoryId
 	}
 
 	func read(from model: BlogPostModel) {
@@ -39,17 +42,19 @@ final class BlogPostEditForm: Encodable {
 		excerpt.value = model.excerpt
 		date.value = DateFormatter.year.string(from: model.date)
 		content.value = model.content
+		categoryId.value = model.$category.id.uuidString
 	}
 
 	func write(to model: BlogPostModel) {
 		model.title = self.title.value
 		model.slug = self.slug.value
 		model.excerpt = self.excerpt.value
-		model.date = DateFormatter.year.date(from: self.date.value)!
+		model.date = DateFormatter.year.date(from: date.value)!
 		model.content = self.content.value
+		model.$category.id = UUID(uuidString: categoryId.value)!
 	}
 
-	func validate() -> Bool {
+	func validate(req: Request) -> EventLoopFuture<Bool> {
 		var valid = true
 
 		func checkValidity(on formField: inout BasicFormField, fieldName: String) {
@@ -67,6 +72,15 @@ final class BlogPostEditForm: Encodable {
 			date.error = "Invalid date"
 			valid = false
 		}
-		return valid
+
+		let uuid = UUID(uuidString: categoryId.value)
+		return BlogCategoryModel.find(uuid, on: req.db)
+			.map { model in
+				if model == nil {
+					self.categoryId.error = "Category identifier error"
+					valid = false
+				}
+				return valid
+			}
 	}
 }
