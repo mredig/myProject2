@@ -20,7 +20,8 @@
 					<td>#(item.title)</td>
 					<td class="actions">
 						<a href="/admin/blog/posts/#(item.id)">Edit</a> &middot;
-						<a href="/#(item.slug)" target="_blank">Preview</a>
+						<a href="/#(item.slug)" target="_blank">Preview</a> &middot;
+						<a id="#(item.id)" href="#" onClick="confirmDelete('/admin/blog/posts/',this.id);">Delete</a>
 					</td>
 				</tr>
 			#endfor

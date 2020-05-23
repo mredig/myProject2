@@ -30,5 +30,6 @@ struct BlogRouter: RouteCollection {
 
 		posts.get(":id", use: adminController.updateView)
 		posts.post(":id", use: adminController.update)
+		posts.post(":id", "delete", use: adminController.delete)
 	}
 }

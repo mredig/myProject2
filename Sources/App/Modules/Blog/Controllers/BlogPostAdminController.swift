@@ -77,4 +77,10 @@ struct BlogPostAdminController {
 				req.redirect(to: "/admin/blog/posts")
 			}
 	}
+
+	func delete(req: Request) throws -> EventLoopFuture<String> {
+		try find(req).flatMap { item in
+			item.delete(on: req.db).map { item.id!.uuidString }
+		}
+	}
 }
