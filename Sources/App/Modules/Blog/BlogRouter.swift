@@ -28,5 +28,7 @@ struct BlogRouter: RouteCollection {
 		posts.get("new", use: self.adminController.createView)
 		posts.post("new", use: self.adminController.create)
 
+		posts.get(":id", use: adminController.updateView)
+		posts.post(":id", use: adminController.update)
 	}
 }

@@ -32,6 +32,15 @@ final class BlogPostEditForm: Encodable {
 		self.content.value = context.content
 	}
 
+	func read(from model: BlogPostModel) {
+		id = model.id!.uuidString
+		title.value = model.title
+		slug.value = model.slug
+		excerpt.value = model.excerpt
+		date.value = DateFormatter.year.string(from: model.date)
+		content.value = model.content
+	}
+
 	func write(to model: BlogPostModel) {
 		model.title = self.title.value
 		model.slug = self.slug.value

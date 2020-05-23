@@ -3,6 +3,36 @@ import Fluent
 
 struct BlogPostAdminController {
 
+	func find(_ req: Request) throws -> EventLoopFuture<BlogPostModel> {
+		guard let id = req.parameters.get("id"),
+			let uuid = UUID(uuidString: id) else { throw Abort(.badRequest) }
+		return BlogPostModel.find(uuid, on: req.db).unwrap(or: Abort(.notFound))
+	}
+
+	func updateView(req: Request) throws -> EventLoopFuture<View> {
+		try find(req).flatMap { model in
+			let editForm = BlogPostEditForm()
+			editForm.read(from: model)
+			return self.render(req: req, form: editForm)
+		}
+	}
+
+	func update(req: Request) throws -> EventLoopFuture<View> {
+		let form = try BlogPostEditForm(req: req)
+		guard form.validate() else{
+			return render(req: req, form: form)
+		}
+
+		return try find(req)
+			.flatMap { model in
+				form.write(to: model)
+				return model.update(on: req.db)
+			}
+			.flatMap {
+				self.render(req: req, form: form)
+			}
+	}
+
 	func listView(req: Request) throws -> EventLoopFuture<View> {
 		struct Context<T: Encodable>: Encodable {
 			let list: [T]
