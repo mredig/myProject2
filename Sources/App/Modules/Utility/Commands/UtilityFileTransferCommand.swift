@@ -28,7 +28,7 @@ final class UtilityFileTransferCommand: Command {
 
 			for model in originalModels {
 				let key = "/blog/posts/" + UUID().uuidString + ".jpg"
-				try FileManager.default.moveItem(atPath: publicPath + model.image,
+				try FileManager.default.copyItem(atPath: publicPath + model.image,
 												 toPath: assetsPath + key)
 				model.imageKey = key
 				model.image = "http://localhost:8080/assets" + key
