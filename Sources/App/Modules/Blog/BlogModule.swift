@@ -9,6 +9,9 @@ import Vapor
 import Fluent
 
 struct BlogModule: Module {
+	
+	static var name = "blog"
+
 	var router: RouteCollection? {
 		BlogRouter()
 	}

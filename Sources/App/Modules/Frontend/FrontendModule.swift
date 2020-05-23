@@ -9,6 +9,9 @@ import Vapor
 import Fluent
 
 struct FrontendModule: Module {
+
+	static var name = "frontend"
+
 	var router: RouteCollection? {
 		FrontendRouter()
 	}

@@ -33,7 +33,8 @@ public func configure(_ app: Application) throws {
 		UserModule(),
 		FrontendModule(),
 		AdminModule(),
-		BlogModule()
+		BlogModule(),
+		UtilityModule(),
 	]
 
 	try modules.forEach {

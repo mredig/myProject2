@@ -9,6 +9,9 @@ import Vapor
 import Fluent
 
 struct UserModule: Module {
+
+	static var name = "user"
+
 	var router: RouteCollection? {
 		UserRouter()
 	}
