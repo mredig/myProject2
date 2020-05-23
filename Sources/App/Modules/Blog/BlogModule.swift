@@ -14,6 +14,9 @@ struct BlogModule: Module {
 	}
 
 	var migrations: [Migration] {
-		[BlogMigration_v1_0_0(),]
+		[
+			BlogMigration_v1_0_0(),
+			BlogMigration_v1_1_0(),
+		]
 	}
 }

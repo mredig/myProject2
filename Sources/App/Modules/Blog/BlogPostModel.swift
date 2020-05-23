@@ -16,6 +16,7 @@ final class BlogPostModel: Model {
 		static var title: FieldKey { "title" }
 		static var slug: FieldKey { "slug" }
 		static var image: FieldKey { "image" }
+		static var imageKey: FieldKey { "image_key" }
 		static var excerpt: FieldKey { "excerpt" }
 		static var date: FieldKey { "date" }
 		static var content: FieldKey { "content" }
@@ -33,6 +34,9 @@ final class BlogPostModel: Model {
 
 	@Field(key: FieldKeys.image)
 	var image: String
+
+	@Field(key: FieldKeys.imageKey)
+	var imageKey: String?
 
 	@Field(key: FieldKeys.excerpt)
 	var excerpt: String
@@ -52,6 +56,7 @@ final class BlogPostModel: Model {
 		title: String,
 		slug: String,
 		image: String,
+		imageKey: String? = nil,
 		excerpt: String,
 		date: Date,
 		content: String,
@@ -61,6 +66,7 @@ final class BlogPostModel: Model {
 		self.title = title
 		self.slug = slug
 		self.image = image
+		self.imageKey = imageKey
 		self.excerpt = excerpt
 		self.date = date
 		self.content = content
