@@ -50,7 +50,7 @@ struct BlogPostAdminController {
 	}
 
 	func beforeCreate(req: Request, model: BlogPostModel, form: BlogPostEditForm) -> EventLoopFuture<BlogPostModel> {
-		var future: EventLoopFuture<BlogPostModel> = req.eventLoop.future(model)
+		var future: EventLoopFuture<BlogPostModel>
 		if let data = form.image.data {
 			let key = "/blog/posts/" + UUID().uuidString + ".jpg"
 			future = req.fs.upload(key: key, data: data).map { url in
@@ -59,6 +59,9 @@ struct BlogPostAdminController {
 				model.image = url
 				return model
 			}
+		} else {
+			model.image = ""
+			future = req.eventLoop.future(model)
 		}
 		return future
 	}
