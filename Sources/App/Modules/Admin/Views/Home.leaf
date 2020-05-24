@@ -5,7 +5,8 @@
 		</section>
 		<section>
 			<p>#(message)</p>
-			<a href="/admin/blog/posts">Blog posts</a>
+			<a href="/admin/blog/posts">Blog posts</a> &middot;
+			<a href="/admin/blog/categories">Blog categories</a>
 		</section>
 	#endexport
 #endextend
