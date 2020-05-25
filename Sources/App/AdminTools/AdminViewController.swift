@@ -79,12 +79,6 @@ extension AdminViewController {
 	}
 
 	func updateView(req: Request) throws -> EventLoopFuture<View> {
-//		try find(req: req).flatMap { model in
-//			let form = EditForm()
-//			form.read(from: model as! EditForm.Model)
-//			return self.render(req: req, form: form)
-//		}
-
 		try find(req: req).flatMapFailable { model in
 			let form = EditForm()
 			let unwrapped = try (model as? EditForm.Model).unwrap()
