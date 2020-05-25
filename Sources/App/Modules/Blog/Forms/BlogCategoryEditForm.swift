@@ -1,6 +1,7 @@
 import Vapor
 
-final class BlogCategoryEditForm: Encodable {
+final class BlogCategoryEditForm: Form {
+	typealias Model = BlogCategoryModel
 
 	struct Input: Decodable {
 		var id: String

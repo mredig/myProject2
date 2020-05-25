@@ -51,3 +51,7 @@ extension BlogCategoryModel: FormFieldOptionRepresentable {
 		.init(key: id!.uuidString, label: title)
 	}
 }
+
+extension BlogCategoryModel: ViewContextRepresentable {
+	var viewIdentifier: String { self.id!.uuidString }
+}
