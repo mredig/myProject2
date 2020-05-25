@@ -28,6 +28,11 @@ protocol AdminViewController {
 
 	func beforeDelete(req: Request, model: Model) -> EventLoopFuture<Model>
 	func delete(req: Request)  throws-> EventLoopFuture<String>
+
+	func setupRoutes(routes: RoutesBuilder,
+					 on pathComponent: PathComponent,
+					 createComponent: PathComponent,
+					 deleteComponent: PathComponent)
 }
 
 
@@ -144,4 +149,20 @@ extension AdminViewController where Model.IDValue == UUID {
 			.unwrap(or: Abort(.notFound))
 	}
 
+}
+
+extension AdminViewController {
+	func setupRoutes(routes: RoutesBuilder,
+					 on pathComponent: PathComponent,
+					 createComponent: PathComponent = "new",
+					 deleteComponent: PathComponent = "delete") {
+		let base = routes.grouped(pathComponent)
+
+		base.get(use: listView)
+		base.get(createComponent, use: createView)
+		base.post(createComponent, use: create)
+		base.get(idPathComponent, use: updateView)
+		base.post(idPathComponent, use: update)
+		base.post(idPathComponent, deleteComponent, use: delete)
+	}
 }

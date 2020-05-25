@@ -9,7 +9,7 @@ import Vapor
 
 struct BlogRouter: RouteCollection {
 	let frontendController = BlogFrontendController()
-	let adminController = BlogPostAdminController()
+	let postAdminController = BlogPostAdminController()
 	let categoryAdminController = BlogCategoryAdminController()
 
 	func boot(routes: RoutesBuilder) throws {
@@ -24,21 +24,7 @@ struct BlogRouter: RouteCollection {
 
 		let blog = protected.grouped("admin", "blog")
 
-		let posts = blog.grouped("posts")
-		posts.get(use: self.adminController.listView)
-		posts.get("new", use: self.adminController.createView)
-		posts.post("new", use: self.adminController.create)
-		posts.get(":id", use: adminController.updateView)
-		posts.post(":id", use: adminController.update)
-		posts.post(":id", "delete", use: adminController.delete)
-
-		let categories = blog.grouped("categories")
-		categories.get(use: categoryAdminController.listView)
-		categories.get("new", use: categoryAdminController.createView)
-		categories.post("new", use: categoryAdminController.create)
-		categories.get(":id", use: categoryAdminController.updateView)
-		categories.post(":id", use: categoryAdminController.update)
-		categories.post(":id", "delete", use: categoryAdminController.delete)
-
+		postAdminController.setupRoutes(routes: blog, on: "posts")
+		categoryAdminController.setupRoutes(routes: blog, on: "categories")
 	}
 }
