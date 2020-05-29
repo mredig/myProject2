@@ -128,3 +128,5 @@ extension BlogCategoryModel: PatchContentRepresentable {
 		}
 	}
 }
+
+extension BlogCategoryModel: DeleteContentRepresentable {}
