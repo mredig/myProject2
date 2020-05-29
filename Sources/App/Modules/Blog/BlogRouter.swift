@@ -36,5 +36,8 @@ struct BlogRouter: RouteCollection {
 		categoryAPIController.setupUpdateRoute(routes: categories)
 		categoryAPIController.setupPatchRoute(routes: categories)
 		categoryAPIController.setupDeleteRoute(routes: categories)
+
+		let postsApiController = BlogPostApiController()
+		postsApiController.setupRoutes(routes: blogApi, on: "posts")
 	}
 }

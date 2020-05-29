@@ -15,8 +15,8 @@ extension CreateContentController {
 		return model.create(on: req.db)
 			.transform(to: model.getContent)
 	}
+
 	func setupCreateRoute(routes: RoutesBuilder) {
 		routes.post(use: create)
 	}
-
 }
