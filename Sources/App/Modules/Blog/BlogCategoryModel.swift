@@ -83,3 +83,17 @@ extension BlogCategoryModel: GetContentRepresentable {
 
 	var getContent: GetContent { .init(model: self) }
 }
+
+extension BlogCategoryModel: CreateContentRepresentable {
+	struct CreateContent: ValidatableContent {
+		var title: String
+
+		static func validations(_ validations: inout Validations) {
+			validations.add("title", as: String.self, is: !.empty)
+		}
+	}
+
+	func create(_ content: CreateContent) throws {
+		title = content.title
+	}
+}

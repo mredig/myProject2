@@ -32,5 +32,6 @@ struct BlogRouter: RouteCollection {
 		let categoryAPIController = BlogCategoryApiController()
 		categoryAPIController.setupListRoute(routes: categories)
 		categoryAPIController.setupGetRoute(routes: categories)
+		categoryAPIController.setupCreateRoute(routes: categories)
 	}
 }
