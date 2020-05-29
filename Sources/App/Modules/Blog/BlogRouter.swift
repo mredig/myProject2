@@ -33,5 +33,6 @@ struct BlogRouter: RouteCollection {
 		categoryAPIController.setupListRoute(routes: categories)
 		categoryAPIController.setupGetRoute(routes: categories)
 		categoryAPIController.setupCreateRoute(routes: categories)
+		categoryAPIController.setupUpdateRoute(routes: categories)
 	}
 }
