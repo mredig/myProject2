@@ -112,3 +112,19 @@ extension BlogCategoryModel: UpdateContentRepresentable {
 		title = content.title
 	}
 }
+
+extension BlogCategoryModel: PatchContentRepresentable {
+	struct PatchContent: ValidatableContent {
+		var title: String?
+
+		static func validations(_ validations: inout Validations) {
+			validations.add("title", as: String.self, is: !.empty, required: false)
+		}
+	}
+
+	func patch(_ content: PatchContent) throws {
+		if let title = content.title {
+			self.title = title
+		}
+	}
+}
