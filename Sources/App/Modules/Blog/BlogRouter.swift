@@ -27,7 +27,10 @@ struct BlogRouter: RouteCollection {
 		postAdminController.setupRoutes(routes: blog, on: "posts")
 		categoryAdminController.setupRoutes(routes: blog, on: "categories")
 
-		let blogApi = routes.grouped("api", "blog")
+		let blogApi = routes.grouped([
+			UserTokenModel.authenticator(),
+			UserModel.guardMiddleware()
+		]).grouped("api", "blog")
 		let categories = blogApi.grouped("categories")
 		let categoryAPIController = BlogCategoryApiController()
 		categoryAPIController.setupListRoute(routes: categories)
