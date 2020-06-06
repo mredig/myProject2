@@ -1,18 +1,12 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
 import Fluent
+import ViperKit
 
-struct FrontendModule: Module {
+struct FrontendModule: ViperModule {
 
 	static var name = "frontend"
 
-	var router: RouteCollection? {
+	var router: ViperRouter? {
 		FrontendRouter()
 	}
 }

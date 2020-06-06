@@ -1,14 +1,13 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
 import Fluent
+import ViewKit
+import ContentApi
+import ViperKit
 
-final class BlogCategoryModel: Model {
+final class BlogCategoryModel: ViperModel {
+	typealias Module = BlogModule
+
+	static var name: String = "categories"
 	static let schema = "blog_categories"
 
 	enum FieldKeys {
@@ -32,7 +31,7 @@ final class BlogCategoryModel: Model {
 	}
 }
 
-extension BlogCategoryModel {
+extension BlogCategoryModel: ViewContextRepresentable {
 	struct ViewContext: Encodable {
 		var id: String
 		var title: String
@@ -50,10 +49,6 @@ extension BlogCategoryModel: FormFieldOptionRepresentable {
 	var formFieldOption: FormFieldOption {
 		.init(key: id!.uuidString, label: title)
 	}
-}
-
-extension BlogCategoryModel: ViewContextRepresentable {
-	var viewIdentifier: String { self.id!.uuidString }
 }
 
 extension BlogCategoryModel: ListContentRepresentable {

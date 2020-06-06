@@ -1,18 +1,11 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
+import ViperKit
 
-struct FrontendRouter: RouteCollection {
+struct FrontendRouter: ViperRouter {
 	let controller = FrontendController()
 
-	func boot(routes: RoutesBuilder) throws {
+	func boot(routes: RoutesBuilder, app: Application) throws {
 		routes.grouped(UserModelSessionAuthenticator())
 			.get(use: self.controller.homeView)
-
 	}
 }

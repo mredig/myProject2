@@ -14,7 +14,11 @@ let package = Package(
 		.package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0-rc"),
 		.package(url: "https://github.com/binarybirds/liquid.git", from: "1.0.0"),
 		.package(url: "https://github.com/binarybirds/liquid-local-driver.git", from: "1.0.0"),
-
+		.package(url: "https://github.com/binarybirds/liquid-aws-s3-driver.git", from: "1.0.0"),
+		.package(url: "https://github.com/vapor/fluent-postgres-driver", from: "2.0.0-rc"),
+		.package(url: "https://github.com/binarybirds/view-kit.git", from: "1.0.0"),
+		.package(url: "https://github.com/binarybirds/content-api.git", from: "1.0.0"),
+		.package(url: "https://github.com/binarybirds/viper-kit.git", from: "1.0.0"),
 	],
     targets: [
         .target(
@@ -23,9 +27,14 @@ let package = Package(
 				.product(name: "Leaf", package: "leaf"),
 				.product(name: "Fluent", package: "fluent"),
 				.product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+				.product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
 				.product(name: "Vapor", package: "vapor"),
 				.product(name: "Liquid", package: "liquid"),
-				.product(name: "LiquidLocalDriver", package: "liquid-local-driver")
+				.product(name: "LiquidLocalDriver", package: "liquid-local-driver"),
+				.product(name: "LiquidAwsS3Driver", package: "liquid-aws-s3-driver"),
+				.product(name: "ViewKit", package: "view-kit"),
+				.product(name: "ContentApi", package: "content-api"),
+				.product(name: "ViperKit", package: "viper-kit"),
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

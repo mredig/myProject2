@@ -213,3 +213,5 @@ Config/secrets
 
 # End of https://www.gitignore.io/api/vapor,xcode,linux,macos,swift,swiftpm,carthage,cocoapods,objective-c,swiftpackagemanager
 Public/assets/blog/posts/*.jpg
+
+.env*

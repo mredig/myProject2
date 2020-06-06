@@ -1,18 +1,12 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
 import Fluent
+import ViperKit
 
-struct BlogModule: Module {
+struct BlogModule: ViperModule {
 	
 	static var name = "blog"
 
-	var router: RouteCollection? {
+	var router: ViperRouter? {
 		BlogRouter()
 	}
 

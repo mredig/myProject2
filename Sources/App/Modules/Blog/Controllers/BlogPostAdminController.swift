@@ -2,12 +2,18 @@ import Vapor
 import Fluent
 import Liquid
 
-struct BlogPostAdminController: AdminViewController {
+
+struct BlogPostAdminController: ViperAdminViewController {
 	typealias EditForm = BlogPostEditForm
 	typealias Model = BlogPostModel
+	typealias Module = BlogModule
 
 	let editView = "Blog/Admin/Posts/Edit"
 	let listView = "Blog/Admin/Posts/List"
+
+	private func generateUniqueAssetLocationKey() -> String {
+		Model.path + UUID().uuidString + ".jpg"
+	}
 
 	func beforeRender(req: Request, form: BlogPostEditForm) -> EventLoopFuture<Void> {
 		BlogCategoryModel.query(on: req.db).all()
@@ -18,7 +24,7 @@ struct BlogPostAdminController: AdminViewController {
 	func beforeCreate(req: Request, model: BlogPostModel, form: BlogPostEditForm) -> EventLoopFuture<BlogPostModel> {
 		var future: EventLoopFuture<BlogPostModel>
 		if let data = form.image.data {
-			let key = "/blog/posts/" + UUID().uuidString + ".jpg"
+			let key = generateUniqueAssetLocationKey()
 			future = req.fs.upload(key: key, data: data).map { url in
 				form.image.value = url
 				model.imageKey = key
@@ -46,7 +52,7 @@ struct BlogPostAdminController: AdminViewController {
 		}
 		if let data = form.image.data {
 			return future.flatMap { model in
-				let key = "/blog/posts/" + UUID().uuidString + ".jpg"
+				let key = self.generateUniqueAssetLocationKey()
 				return req.fs.upload(key: key, data: data).map { url in
 					form.image.value = url
 					model.imageKey = key

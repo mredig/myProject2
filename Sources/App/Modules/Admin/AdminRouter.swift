@@ -1,16 +1,10 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/18/20.
-//
-
 import Vapor
+import ViperKit
 
-struct AdminRouter: RouteCollection {
+struct AdminRouter: ViperRouter {
 	let controller = AdminController()
 
-	func boot(routes: RoutesBuilder) throws {
+	func boot(routes: RoutesBuilder, app: Application) throws {
 		routes.grouped(UserModelSessionAuthenticator())
 			.get("admin", use: self.controller.homeView)
 	}

@@ -1,14 +1,13 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
 import Fluent
+import ViewKit
+import ContentApi
+import ViperKit
 
-final class BlogPostModel: Model {
+final class BlogPostModel: ViperModel {
+	typealias Module = BlogModule
+
+	static var name: String = "posts"
 
 	static let schema: String = "blog_posts"
 
@@ -75,7 +74,7 @@ final class BlogPostModel: Model {
 
 }
 
-extension BlogPostModel {
+extension BlogPostModel: ViewContextRepresentable {
 	struct ViewContext: Encodable {
 		var id: String
 		var title: String
@@ -97,10 +96,6 @@ extension BlogPostModel {
 	}
 
 	var viewContext: ViewContext { .init(model: self) }
-}
-
-extension BlogPostModel: ViewContextRepresentable {
-	var viewIdentifier: String { self.id!.uuidString }
 }
 
 extension BlogPostModel: ApiRepresentable {

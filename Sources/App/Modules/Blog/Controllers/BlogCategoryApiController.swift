@@ -1,5 +1,6 @@
 import Vapor
 import Fluent
+import ContentApi
 
 struct BlogCategoryApiController: ListContentController, GetContentController, CreateContentController, UpdateContentController, PatchContentController, DeleteContentController {
 	typealias Model = BlogCategoryModel

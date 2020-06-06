@@ -1,18 +1,12 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
+import ViperKit
 
-struct BlogRouter: RouteCollection {
+struct BlogRouter: ViperRouter {
 	let frontendController = BlogFrontendController()
 	let postAdminController = BlogPostAdminController()
 	let categoryAdminController = BlogCategoryAdminController()
 
-	func boot(routes: RoutesBuilder) throws {
+	func boot(routes: RoutesBuilder, app: Application) throws {
 		routes.get("blog", use: self.frontendController.blogView)
 		routes.get(.anything, use: self.frontendController.postView)
 
