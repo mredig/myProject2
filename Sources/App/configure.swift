@@ -10,6 +10,11 @@ import ViperKit
 import AWSS3
 
 extension Environment {
+	static let dbHost = Self.get("DB_HOST")!
+	static let dbUser = Self.get("DB_USER")!
+	static let dbPass = Self.get("DB_PASS")!
+	static let dbName = Self.get("DB_NAME")!
+
 	static let pgURL = URL(string: Self.get("DB_URL")!)!
 	static let appURL = URL(string: Self.get("APP_URL")!)!
 	static let awsKey = Self.get("AWS_KEY")!
@@ -19,7 +24,16 @@ extension Environment {
 // configures your application
 public func configure(_ app: Application) throws {
 //	app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
-	try app.databases.use(.postgres(url: Environment.pgURL), as: .psql)
+
+	let postgresConfig = PostgresConfiguration(hostname: Environment.dbHost,
+											   port: 5432,
+											   username: Environment.dbUser,
+											   password: Environment.dbPass,
+											   database: Environment.dbName)
+
+	try app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+
+	try app.autoMigrate().wait()
 
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
