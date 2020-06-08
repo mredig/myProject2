@@ -33,7 +33,11 @@ public func configure(_ app: Application) throws {
 
 	app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
 
+	print("dbhost: \(Environment.dbHost)")
+	print("app url: \(Environment.appURL)")
+	print("about to migrate")
 	try app.autoMigrate().wait()
+	print("finished migrate")
 
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
