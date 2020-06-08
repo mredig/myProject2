@@ -26,7 +26,7 @@ x-shared_environment: &shared_environment
 
 services:
   app:
-    image: myProject2:latest
+    image: myproject2:latest
     build:
       context: .
     environment:
