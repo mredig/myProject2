@@ -47,5 +47,7 @@ services:
       POSTGRES_USER: myproject2
       POSTGRES_PASSWORD: password
       POSTGRES_DB: myproject2
-    ports:
-      - '5432:5432'
+    expose:
+      - "5432"
+    # ports:
+    #   - '5432:5432'
