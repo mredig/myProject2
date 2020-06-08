@@ -115,6 +115,7 @@ extension BlogPostModel: ApiRepresentable {
 		var excerpt: String
 		var date: Date
 		var content: String
+		var categoryId: String
 
 //		static func validations(_ validations: inout Validations) {
 //			validations.add("title", as: String.self, is: !.empty)
