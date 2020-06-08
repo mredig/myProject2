@@ -32,6 +32,9 @@ COPY --from=build --chown=vapor:vapor /build/.build/release /app
 COPY --from=build --chown=vapor:vapor /build/Public /app/Public
 COPY --from=build --chown=vapor:vapor /build/Resources /app/Resources
 
+COPY .env /app
+COPY .env /app/.env.production
+
 USER vapor
 ENTRYPOINT ["./Run"]
 CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
