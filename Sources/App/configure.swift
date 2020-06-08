@@ -31,7 +31,7 @@ public func configure(_ app: Application) throws {
 											   password: Environment.dbPass,
 											   database: Environment.dbName)
 
-	try app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+	app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
 
 	try app.autoMigrate().wait()
 
