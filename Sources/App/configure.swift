@@ -23,8 +23,6 @@ extension Environment {
 
 // configures your application
 public func configure(_ app: Application) throws {
-//	app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
-
 	let postgresConfig = PostgresConfiguration(hostname: Environment.dbHost,
 											   port: 5432,
 											   username: Environment.dbUser,
@@ -71,14 +69,18 @@ public func configure(_ app: Application) throws {
 		UtilityModule(),
 	]
 
-//	try modules.forEach {
-//		try $0.configure(app)
-//	}
 	try app.viper.use(modules)
 
-	print("dbhost: \(Environment.dbHost)")
-	print("app url: \(Environment.appURL)")
-	print("about to migrate")
-	try app.autoMigrate().wait()
-	print("finished migrate")
+	var triesLeft = 5
+
+	// try a few times, incrementing delay between when failing. This is to give the DB time to start up.
+	for tryCount in 1...triesLeft {
+		do {
+			try app.autoMigrate().wait()
+			break
+		} catch {
+			NSLog("Error trying to migrate database: \(error)")
+			sleep(tryCount * 3)
+		}
+	}
 }
