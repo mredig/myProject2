@@ -71,7 +71,7 @@ public func configure(_ app: Application) throws {
 
 	try app.viper.use(modules)
 
-	var triesLeft = 5
+	let triesLeft: UInt32 = 5
 
 	// try a few times, incrementing delay between when failing. This is to give the DB time to start up.
 	for tryCount in 1...triesLeft {
