@@ -8,15 +8,18 @@ import ViperKit
 import AWSS3
 
 extension Environment {
-	static let dbHost = Self.get("DB_HOST")!
-	static let dbUser = Self.get("DB_USER")!
-	static let dbPass = Self.get("DB_PASS")!
-	static let dbName = Self.get("DB_NAME")!
+	static let dbHost = Self.get("DB_HOST") ?? "DB_HOST"
+	static let dbUser = Self.get("DB_USER") ?? "DB_USER"
+	static let dbPass = Self.get("DB_PASS") ?? "DB_PASS"
+	static let dbName = Self.get("DB_NAME") ?? "DB_NAME"
 
-	static let pgURL = URL(string: Self.get("DB_URL")!)!
-	static let appURL = URL(string: Self.get("APP_URL")!)!
-	static let awsKey = Self.get("AWS_KEY")!
-	static let awsSecret = Self.get("AWS_SECRET")!
+    static let fsName = Self.get("FS_NAME") ?? "FS_NAME"
+    static let fsRegion = Region(rawValue: Self.get("FS_REGION") ?? "us-west-1")
+
+	static let pgURL = URL(string: Self.get("DB_URL") ?? "http://localhost")!
+	static let appURL = URL(string: Self.get("APP_URL") ?? "http://localhost")!
+	static let awsKey = Self.get("AWS_KEY") ?? "AWS_KEY"
+	static let awsSecret = Self.get("AWS_SECRET") ?? "AWS_SECRET"
 }
 
 // configures your application
@@ -34,8 +37,8 @@ public func configure(_ app: Application) throws {
 	app.routes.defaultMaxBodySize = "10mb"
 	app.fileStorages.use(.awsS3(key: Environment.awsKey,
 								secret: Environment.awsSecret,
-								bucket: "mredigvapor",
-								region: .useast2),
+								bucket: Environment.fsName,
+								region: Environment.fsRegion),
 						 as: .awsS3)
 
 	app.views.use(.leaf)
@@ -66,6 +69,8 @@ public func configure(_ app: Application) throws {
 
 	let triesLeft: UInt32 = 5
 
+//	guard !app.environment.name.contains("test") else { return }
+	guard app.environment != .testing else { return }
 	// try a few times, incrementing delay between when failing. This is to give the DB time to start up.
 	for tryCount in 1...triesLeft {
 		do {
