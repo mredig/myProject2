@@ -76,11 +76,14 @@ public func configure(_ app: Application) throws {
 	// try a few times, incrementing delay between when failing. This is to give the DB time to start up.
 	for tryCount in 1...triesLeft {
 		do {
+			print("attempting database connection: \(tryCount)")
 			try app.autoMigrate().wait()
 			break
 		} catch {
-			NSLog("Error trying to migrate database: \(error)")
-			sleep(tryCount * 3)
+			print("Error trying to migrate database: \(error)")
+			let waitSeconds = tryCount * 3
+			print("waiting \(waitSeconds) seconds before trying again")
+			sleep(waitSeconds)
 		}
 	}
 }
