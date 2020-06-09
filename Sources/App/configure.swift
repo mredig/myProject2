@@ -33,12 +33,6 @@ public func configure(_ app: Application) throws {
 
 	app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
 
-	print("dbhost: \(Environment.dbHost)")
-	print("app url: \(Environment.appURL)")
-	print("about to migrate")
-	try app.autoMigrate().wait()
-	print("finished migrate")
-
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
 	app.routes.defaultMaxBodySize = "10mb"
@@ -81,4 +75,10 @@ public func configure(_ app: Application) throws {
 //		try $0.configure(app)
 //	}
 	try app.viper.use(modules)
+
+	print("dbhost: \(Environment.dbHost)")
+	print("app url: \(Environment.appURL)")
+	print("about to migrate")
+	try app.autoMigrate().wait()
+	print("finished migrate")
 }
