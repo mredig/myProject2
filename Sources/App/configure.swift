@@ -69,7 +69,7 @@ public func configure(_ app: Application) throws {
 
 	let triesLeft: UInt32 = 5
 
-//	guard !app.environment.name.contains("test") else { return }
+	// only migrate here if we are not testing
 	guard app.environment != .testing else { return }
 	// try a few times, incrementing delay between when failing. This is to give the DB time to start up.
 	for tryCount in 1...triesLeft {
