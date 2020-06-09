@@ -146,6 +146,15 @@
         }
       },
       {
+        "package": "MyProjectApi",
+        "repositoryURL": "https://github.com/mredig/MyProjectApi.git",
+        "state": {
+          "branch": null,
+          "revision": "0c2ce867fc8c6000c486de88926280e85162ed25",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "postgres-kit",
         "repositoryURL": "https://github.com/vapor/postgres-kit.git",
         "state": {

@@ -1,6 +1,7 @@
 import Vapor
 import Fluent
 import ContentApi
+import MyProjectApi
 
 struct BlogPostApiController: ApiController {
 	typealias Model = BlogPostModel
@@ -17,11 +18,11 @@ struct BlogPostApiController: ApiController {
 			}
 	}
 
-	func beforeCreate(req: Request, model: BlogPostModel, content: BlogPostModel.CreateUpdateContent) -> EventLoopFuture<BlogPostModel> {
+	func beforeCreate(req: Request, model: BlogPostModel, content: BlogPostUpsertObject) -> EventLoopFuture<BlogPostModel> {
 		setValidCategory(req: req, model: model, categoryId: content.categoryId)
 	}
 
-	func beforeUpdate(req: Request, model: BlogPostModel, content: BlogPostModel.CreateUpdateContent) -> EventLoopFuture<BlogPostModel> {
+	func beforeUpdate(req: Request, model: BlogPostModel, content: BlogPostUpsertObject) -> EventLoopFuture<BlogPostModel> {
 		setValidCategory(req: req, model: model, categoryId: content.categoryId)
 	}
 }
