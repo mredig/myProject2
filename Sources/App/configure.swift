@@ -1,11 +1,9 @@
 import Vapor
 import Leaf
 import Fluent
-//import FluentSQLiteDriver
 import FluentPostgresDriver
 import Liquid
-import LiquidLocalDriver
-//import LiquidAwsS3Driver
+import LiquidAwsS3Driver
 import ViperKit
 import AWSS3
 
@@ -34,16 +32,11 @@ public func configure(_ app: Application) throws {
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
 	app.routes.defaultMaxBodySize = "10mb"
-	app.fileStorages.use(.local(publicUrl: Environment.appURL.absoluteString,
-								publicPath: app.directory.publicDirectory,
-								workDirectory: "assets"),
-						 as: .local)
-//	app.fileStorages.use(.awsS3(key: Environment.awsKey,
-//								secret: Environment.awsSecret,
-//								bucket: "demoproject",
-//								region: .useast1,
-//								endpoint: "https://s3.us-west-1.wasabisys.com"),
-//						 as: .awsS3)
+	app.fileStorages.use(.awsS3(key: Environment.awsKey,
+								secret: Environment.awsSecret,
+								bucket: "mredigvapor",
+								region: .useast2),
+						 as: .awsS3)
 
 	app.views.use(.leaf)
 //	app.leaf.cache.isEnabled = app.environment.isRelease

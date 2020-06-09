@@ -1,6 +1,9 @@
 @testable import App
 import XCTVapor
-
+import Fluent
+import FluentSQLiteDriver
+import LiquidLocalDriver
+import Liquid
 
 open class AppTestCase: XCTestCase {
 	func createTestApp() throws -> Application {
@@ -8,6 +11,13 @@ open class AppTestCase: XCTestCase {
 		try configure(app)
 		app.databases.use(.sqlite(.memory), as: .sqlite)
 		app.databases.default(to: .sqlite)
+
+		app.fileStorages.use(.local(publicUrl: Environment.appURL.absoluteString,
+									publicPath: app.directory.publicDirectory,
+									workDirectory: "assets"),
+							 as: .local)
+		app.fileStorages.default(to: .local)
+
 		try app.autoMigrate().wait()
 		return app
 	}
