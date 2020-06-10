@@ -12,7 +12,6 @@ struct BlogRouter: ViperRouter {
 
 		let protected = routes.grouped([
 			UserModelSessionAuthenticator(),
-//			UserModel.guardMiddleware(),
 			UserModel.redirectMiddleware(path: "/")
 		])
 
@@ -21,20 +20,31 @@ struct BlogRouter: ViperRouter {
 		postAdminController.setupRoutes(routes: blog, on: "posts")
 		categoryAdminController.setupRoutes(routes: blog, on: "categories")
 
-		let blogApi = routes.grouped([
+		let publicApi = routes.grouped("api", "blog")
+		let privateApi = publicApi.grouped([
 			UserTokenModel.authenticator(),
 			UserModel.guardMiddleware()
-		]).grouped("api", "blog")
-		let categories = blogApi.grouped("categories")
+		])
+		let publicCategories = publicApi.grouped("categories")
+		let privateCategories = privateApi.grouped("categories")
 		let categoryAPIController = BlogCategoryApiController()
-		categoryAPIController.setupListRoute(routes: categories)
-		categoryAPIController.setupGetRoute(routes: categories)
-		categoryAPIController.setupCreateRoute(routes: categories)
-		categoryAPIController.setupUpdateRoute(routes: categories)
-		categoryAPIController.setupPatchRoute(routes: categories)
-		categoryAPIController.setupDeleteRoute(routes: categories)
+		categoryAPIController.setupListRoute(routes: publicCategories)
+		categoryAPIController.setupGetRoute(routes: publicCategories)
 
+		categoryAPIController.setupCreateRoute(routes: privateCategories)
+		categoryAPIController.setupUpdateRoute(routes: privateCategories)
+		categoryAPIController.setupPatchRoute(routes: privateCategories)
+		categoryAPIController.setupDeleteRoute(routes: privateCategories)
+
+		let publicPosts = publicApi.grouped("posts")
+		let privatePosts = publicApi.grouped("posts")
 		let postsApiController = BlogPostApiController()
-		postsApiController.setupRoutes(routes: blogApi, on: "posts")
+		postsApiController.setupListRoute(routes: publicPosts)
+		postsApiController.setupGetRoute(routes: publicPosts)
+
+		postsApiController.setupCreateRoute(routes: privatePosts)
+		postsApiController.setupUpdateRoute(routes: privatePosts)
+		postsApiController.setupPatchRoute(routes: privatePosts)
+		postsApiController.setupDeleteRoute(routes: privatePosts)
 	}
 }
