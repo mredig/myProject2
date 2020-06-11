@@ -1,26 +1,19 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/15/20.
-//
-
 import Vapor
 import Fluent
+import ViperKit
 
-fileprivate extension FieldKey {
-	static var email: FieldKey { "email" }
-}
+final class UserModel: ViperModel {
+	typealias Module = UserModule
 
-final class UserModel: Model {
-
-	static let schema: String = "user_users"
+	static let name = "users"
 
 	enum FieldKeys {
 		static var email: FieldKey { "email" }
 		static var password: FieldKey { "password" }
+		static var appleId: FieldKey { "appleId" }
 	}
 
+	// MARK: - fields
 	@ID()
 	var id: UUID?
 
@@ -30,12 +23,19 @@ final class UserModel: Model {
 	@Field(key: FieldKeys.password)
 	var password: String
 
+	@Field(key: FieldKeys.appleId)
+	var appleId: String?
+
 	init() {}
 
-	init(id: UserModel.IDValue? = nil, email: String, password: String) {
+	init(id: UserModel.IDValue? = nil,
+		 email: String,
+		 password: String,
+		 appleId: String? = nil) {
 		self.id = id
 		self.email = email.lowercased()
 		self.password = password
+		self.appleId = appleId
 	}
 }
 

@@ -22,6 +22,7 @@ let package = Package(
 		.package(url: "https://github.com/binarybirds/spec.git", from: "1.0.0"),
 		.package(url: "https://github.com/mredig/MyProjectApi.git", from: "1.0.0"),
 //		.package(name: "MyProjectApi", path: "../MyProjectApi"),
+		.package(url: "https://github.com/vapor/jwt.git", from: "4.0.0-rc"),
 	],
     targets: [
         .target(
@@ -37,6 +38,7 @@ let package = Package(
 				.product(name: "ContentApi", package: "content-api"),
 				.product(name: "ViperKit", package: "viper-kit"),
 				.product(name: "MyProjectApi", package: "MyProjectApi"),
+				.product(name: "JWT", package: "jwt"),
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

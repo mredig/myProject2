@@ -194,3 +194,22 @@ input.submit:hover {
 		border-color: #5b61de;
 	}
 }
+
+.signin-button {
+	width: 240px;
+	height: 40px;
+}
+
+.signin-button > div > div > svg {
+	width: 100%;
+	height: 100%;
+	color: red;
+}
+
+.signin-button:hover {
+	cursor: pointer; 
+}
+
+.signin-buton > div {
+	outline: none;
+}

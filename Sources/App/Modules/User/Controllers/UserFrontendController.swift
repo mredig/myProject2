@@ -12,8 +12,18 @@ struct UserFrontendController {
 	func loginView(req: Request) throws -> EventLoopFuture<View> {
 		struct Context: Encodable {
 			let title: String
+			var clientId: String
+			var scope: String = "name email"
+			var redirectUrl: String
+			var state: String
+			var popup: Bool = false
 		}
-		let context = Context(title: "myPage - Sign In")
+		let state = [UInt8].random(count: 16).base64
+		req.session.data["state"] = state
+		let context = Context(title: "myPage - Sign In",
+							  clientId: Environment.siwaId,
+							  redirectUrl: Environment.siwaRedirectUrl,
+							  state: state)
 		return req.view.render("User/Frontend/Login", context)
 	}
 
@@ -29,5 +39,55 @@ struct UserFrontendController {
 		req.auth.logout(UserModel.self)
 		req.session.unauthenticate(UserModel.self)
 		return req.redirect(to: "/")
+	}
+
+	func signInWithApple(req: Request) throws -> EventLoopFuture<Response> {
+		struct AuthResponse: Decodable {
+			enum CodingKeys: String, CodingKey {
+				case code
+				case state
+				case idToken = "id_token"
+				case user
+			}
+			let code: String
+			let state: String
+			let idToken: String
+			let user: String
+		}
+
+		let state = req.session.data["state"] ?? ""
+		let auth = try req.content.decode(AuthResponse.self)
+		guard !state.isEmpty, state == auth.state else {
+			throw Abort(.badRequest)
+		}
+
+		return req.jwt.apple.verify(auth.idToken, applicationIdentifier: Environment.siwaId)
+		.flatMap { identityToken -> EventLoopFuture<UserModel> in
+			guard let email = identityToken.email else {
+				return req.eventLoop.future(error: Abort(.unauthorized))
+			}
+			return UserModel.query(on: req.db)
+				.group(.or) {
+					$0
+						.filter(\.$appleId == identityToken.subject.value)
+						.filter(\.$email == email)
+				}
+				.first()
+				.map { user -> UserModel in
+					guard let user = user else {
+						return UserModel(email: email,
+										 password: UUID().uuidString,
+										 appleId: identityToken.subject.value)
+					}
+					return user
+				}
+		}
+		.flatMap { user in
+			user.save(on: req.db).map { user }
+		}
+		.map { user -> Response in
+			req.session.authenticate(user)
+			return req.redirect(to: "/")
+		}
 	}
 }

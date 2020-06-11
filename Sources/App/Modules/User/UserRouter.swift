@@ -6,10 +6,12 @@ struct UserRouter: ViperRouter {
 	let apiController = UserApiController()
 
 	func boot(routes: RoutesBuilder, app: Application) throws {
-		routes.get("sign-in", use: self.controller.loginView)
+		routes.get("sign-in", use: controller.loginView)
 		routes.grouped(UserModelCredentialsAuthenticator())
-			.post("sign-in", use: self.controller.login)
-		routes.get("logout", use: self.controller.logout)
+			.post("sign-in", use: controller.login)
+		routes.get("logout", use: controller.logout)
+		routes.post("siwa-redirect", use: controller.signInWithApple)
+		routes.post("redirect", use: controller.signInWithApple)
 
 		let api = routes.grouped("api", "user")
 		api.grouped(UserModelCredentialsAuthenticator())
