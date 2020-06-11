@@ -3,7 +3,7 @@ import Vapor
 import Fluent
 
 
-enum BlogSeed {
+struct BlogMigrationSeed: Migration {
 	static func uncategorizedPosts(for category: BlogCategoryModel) -> [BlogPostModel] {
 		[
 			BlogPostModel(title: "California",
@@ -47,5 +47,22 @@ enum BlogSeed {
 						  content: "Et non reiciendis et illum corrupti. Et ducimus optio commodi molestiae quis ipsum consequatur. A fugit amet amet qui tenetur. Aut voluptates ut labore consectetur temporibus consectetur. Perferendis et neque id minima voluptatem temporibus a dolor. Eos nihil dignissimos consequuntur et consequuntur nam.",
 						  categoryId: category.id!),
 		]
+	}
+
+	func prepare(on database: Database) -> EventLoopFuture<Void> {
+		let defaultCategory = BlogCategoryModel(title: "Uncategorized")
+		let islandsCategory = BlogCategoryModel(title: "Islands")
+		return [defaultCategory, islandsCategory].create(on: database)
+			.flatMap {
+				let posts = Self.uncategorizedPosts(for: defaultCategory) + Self.islandPosts(for: islandsCategory)
+				return posts.create(on: database)
+		}
+	}
+
+	func revert(on database: Database) -> EventLoopFuture<Void> {
+		database.eventLoop.flatten([
+			BlogPostModel.query(on: database).delete(),
+			BlogCategoryModel.query(on: database).delete(),
+		])
 	}
 }
