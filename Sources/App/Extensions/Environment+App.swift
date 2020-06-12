@@ -23,6 +23,7 @@ extension Environment {
 	static let awsSecret = get("AWS_SECRET") ?? "AWS_SECRET"
 
 	static let siwaId = get("SIWA_ID") ?? "SIWA_ID"
+	static let siwaAppId = get("SIWA_APP_ID") ?? "SIWA_APP_ID"
 	static let siwaRedirectUrl = get("SIWA_REDIRECT_URL") ?? "SIWA_REDIRECT_URL"
 	static let siwaTeamId = get("SIWA_TEAM_ID") ?? "SIWA_TEAM_ID"
 	static let siwaJWKId = get("SIWA_JWK_ID") ?? "SIWA_JWK_ID"

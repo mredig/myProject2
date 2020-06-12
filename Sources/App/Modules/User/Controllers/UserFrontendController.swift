@@ -61,33 +61,10 @@ struct UserFrontendController {
 			throw Abort(.badRequest)
 		}
 
-		return req.jwt.apple.verify(auth.idToken, applicationIdentifier: Environment.siwaId)
-		.flatMap { identityToken -> EventLoopFuture<UserModel> in
-			guard let email = identityToken.email else {
-				return req.eventLoop.future(error: Abort(.unauthorized))
-			}
-			return UserModel.query(on: req.db)
-				.group(.or) {
-					$0
-						.filter(\.$appleId == identityToken.subject.value)
-						.filter(\.$email == email)
-				}
-				.first()
-				.map { user -> UserModel in
-					guard let user = user else {
-						return UserModel(email: email,
-										 password: UUID().uuidString,
-										 appleId: identityToken.subject.value)
-					}
-					return user
-				}
-		}
-		.flatMap { user in
-			user.save(on: req.db).map { user }
-		}
-		.map { user -> Response in
-			req.session.authenticate(user)
-			return req.redirect(to: "/")
+		return UserModel.siwa(req: req, idToken: auth.idToken, appId: Environment.siwaId)
+			.map { user -> Response in
+				req.session.authenticate(user)
+				return req.redirect(to: "/")
 		}
 	}
 }
