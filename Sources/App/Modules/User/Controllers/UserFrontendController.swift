@@ -9,8 +9,10 @@ import Vapor
 import Fluent
 
 struct UserFrontendController {
-	func loginView(req: Request) throws -> EventLoopFuture<View> {
-		struct Context: Encodable {
+	let userFrontendViewController = UserFrontendViewController()
+
+	func loginView(req: Request) throws -> EventLoopFuture<Response> {
+		struct Context: LoginContext {
 			let title: String
 			var clientId: String
 			var scope: String = "name email"
@@ -24,7 +26,9 @@ struct UserFrontendController {
 							  clientId: Environment.siwaId,
 							  redirectUrl: Environment.siwaRedirectUrl,
 							  state: state)
-		return req.view.render("User/Frontend/Login", context)
+		return userFrontendViewController
+			.loginView(context)
+			.encodeResponse(for: req)
 	}
 
 	func login(req: Request) throws -> Response {

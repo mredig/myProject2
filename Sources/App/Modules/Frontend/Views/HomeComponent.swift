@@ -1,21 +1,24 @@
 import Plot
 
-enum HomeView {
+struct HomeComponent: HTMLViewComponent {
 
-	static func homeView(header: String, message: String, email: String?) -> Node<HTML.BodyContext> {
+	let header: String
+	let message: String
+	let email: String?
 
-		let emailSection: Node<HTML.BodyContext>
+	var component: HTMLBodyComponent {
+		let emailSection: HTMLBodyComponent
 		if let email = email {
 			emailSection = .group([
 				.p(.b(.text(email)), " is logged in."),
 				.a(.href("/admin"), "Admin"),
-				"&middot;",
+				" &middot; ",
 				.a(.href("/logout"), "Logout"),
 			])
 		} else {
 			emailSection = .a(.href("/sign-in"), "Sign in")
 		}
-
+		
 		return .group([
 			.section(
 				.class("wrapper"),
@@ -31,5 +34,4 @@ enum HomeView {
 			),
 		])
 	}
-
 }

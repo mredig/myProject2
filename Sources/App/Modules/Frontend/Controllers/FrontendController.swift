@@ -1,12 +1,14 @@
 import Vapor
 
 struct FrontendController {
+	let frontendVC = FrontendViewController()
+
 	func homeView(req: Request) throws -> EventLoopFuture<Response> {
 		var email: String?
 		if let user = req.auth.get(UserModel.self) {
 			email = user.email
 		}
-		struct Context: Encodable {
+		struct Context: HomePageContext {
 			let title: String
 			let header: String
 			let message: String
@@ -14,16 +16,10 @@ struct FrontendController {
 		}
 		let context = Context(title: "myPage - Home",
 							  header: "Hi there,",
-							  message: "welcome to my awesome page!",
+							  message: "welcome to my awesome pageeeeee!",
 							  email: email)
 
-		return IndexView.indexView(
-			titled: context.title,
-			content: HomeView.homeView(
-				header: context.header,
-				message:context.message,
-				email: context.email)
-		).encodeResponse(for: req)
+		return frontendVC.homepageView(context).encodeResponse(for: req)
 	}
 }
 
