@@ -9,10 +9,12 @@ import Vapor
 
 struct AdminController {
 
-	func homeView(req: Request) throws -> EventLoopFuture<View> {
+	let adminUserViewController = AdminUserViewController()
+
+	func homeView(req: Request) throws -> EventLoopFuture<Response> {
 		let user = try req.auth.require(UserModel.self)
 
-		struct Context: Encodable {
+		struct Context: AdminHomeContext {
 			let title: String
 			let header: String
 			let message: String
@@ -21,6 +23,6 @@ struct AdminController {
 		let context = Context(title: "myPage - Admin",
 							  header: "Hi \(user.email)",
 							  message: "Welcome to the CMS!")
-		return req.view.render("Admin/Home", context)
+		return adminUserViewController.adminHomeView(context).encodeResponse(for: req)
 	}
 }
