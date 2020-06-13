@@ -4,7 +4,7 @@ struct PostComponent: HTMLViewComponent {
 
 	let article: ArticleComponent
 
-	private func create() -> HTMLBodyComponent {
+	private func create() -> HTMLBodyNode {
 		.section(
 			.id("blog"),
 			.class("wrapper"),
@@ -17,7 +17,7 @@ struct PostComponent: HTMLViewComponent {
 		)
 	}
 
-	var component: HTMLBodyComponent {
+	var component: HTMLBodyNode {
 		create()
 	}
 }

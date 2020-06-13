@@ -6,8 +6,8 @@ struct HomeComponent: HTMLViewComponent {
 	let message: String
 	let email: String?
 
-	var component: HTMLBodyComponent {
-		let emailSection: HTMLBodyComponent
+	var component: HTMLBodyNode {
+		let emailSection: HTMLBodyNode
 		if let email = email {
 			emailSection = .group([
 				.p(.b(.text(email)), " is logged in."),

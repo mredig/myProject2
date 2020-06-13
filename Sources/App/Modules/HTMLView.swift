@@ -1,7 +1,7 @@
 import Plot
 
-typealias HTMLBodyComponent = Node<HTML.BodyContext>
-typealias HTMLHeadComponent = Node<HTML.HeadContext>
+typealias HTMLBodyNode = Node<HTML.BodyContext>
+typealias HTMLHeadNode = Node<HTML.HeadContext>
 
 protocol HTMLView {
 	var view: HTML { get }
@@ -14,7 +14,7 @@ protocol HTMLViewComponent {
 }
 
 
-extension Array where Element == HTMLBodyComponent {
+extension Array where Element == HTMLBodyNode {
 	func joined(separatedBy separator: Element) -> [Element] {
 		guard self.count > 1 else { return self }
 		return self[1...].reduce(into: [first]) {

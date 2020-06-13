@@ -4,14 +4,14 @@ struct BlogComponent: HTMLViewComponent {
 
 	let articles: [ArticleComponent]
 
-	var component: HTMLBodyComponent {
+	var component: HTMLBodyNode {
 		.section(
 			.id("blog"),
 			.class("wrapper"),
 			.h2("Blog"),
 
 			.group(articles.map {
-				HTMLBodyComponent.article(
+				HTMLBodyNode.article(
 					.a(
 						.href("/\($0.post.slug)"),
 						.img(.src($0.post.image)),

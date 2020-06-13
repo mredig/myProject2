@@ -2,51 +2,51 @@ import Plot
 
 struct IndexView: HTMLView {
 	let title: String
-	let content: HTMLBodyComponent
+	let content: HTMLBodyNode
 	let allowRobots: Bool
-	let styleSheets: HTMLHeadComponent
-	let navigation: HTMLBodyComponent
+	let styleSheets: HTMLHeadNode
+	let navigation: HTMLBodyNode
 	let mainContentID: String
-	let pageScripts: HTMLBodyComponent
+	let pageScripts: HTMLBodyNode
 
-	static var normalNav: [HTMLBodyComponent] = [
+	static var normalNav: [HTMLBodyNode] = [
 		.a(.href("/"), "Home"),
 		.a(.href("/blog"), "Blog"),
 		.a(.href("#"), .onclick("javascript:about();"), "About")
 	]
 
-	static var adminNav: [HTMLBodyComponent] = [
+	static var adminNav: [HTMLBodyNode] = [
 		.a(.href("/"), "Home"),
 		.a(.href("/admin"), "Admin"),
 		.a(.href("/logout"), "Logout")
 	]
 
 	private init(title: String,
-				 content: HTMLBodyComponent,
+				 content: HTMLBodyNode,
 				 allowRobots: Bool = false,
 				 styleSheets: [String],
-				 navigationAnchorArray: [HTMLBodyComponent],
+				 navigationAnchorArray: [HTMLBodyNode],
 				 mainContentID: String,
 				 pageScripts: [String]) {
 		self.title = title
 		self.content = content
 		self.allowRobots = allowRobots
 
-		let sheets = styleSheets.map { HTMLHeadComponent.stylesheet($0) }
+		let sheets = styleSheets.map { HTMLHeadNode.stylesheet($0) }
 		self.styleSheets = .group(sheets)
 
 		self.navigation = .nav(
 			.id("navigation"),
-			.group(navigationAnchorArray.joined(separatedBy: HTMLBodyComponent.text(" &middot; ")))
+			.group(navigationAnchorArray.joined(separatedBy: HTMLBodyNode.text(" &middot; ")))
 		)
 
 		self.mainContentID = mainContentID
 
-		let scripts = pageScripts.map { HTMLBodyComponent.script(.src($0)) }
+		let scripts = pageScripts.map { HTMLBodyNode.script(.src($0)) }
 		self.pageScripts = .group(scripts)
 	}
 
-	static func frontendIndex(titled title: String, content: HTMLBodyComponent, navigationAnchorArray: [HTMLBodyComponent] = normalNav) -> Self {
+	static func frontendIndex(titled title: String, content: HTMLBodyNode, navigationAnchorArray: [HTMLBodyNode] = normalNav) -> Self {
 		IndexView(title: title,
 				  content: content,
 				  allowRobots: true,
@@ -56,7 +56,7 @@ struct IndexView: HTMLView {
 				  pageScripts: ["/javascript/frontend.js"])
 	}
 
-	static func adminIndex(titled title: String, content: HTMLBodyComponent, navigationAnchorArray: [HTMLBodyComponent] = adminNav) -> Self {
+	static func adminIndex(titled title: String, content: HTMLBodyNode, navigationAnchorArray: [HTMLBodyNode] = adminNav) -> Self {
 		IndexView(title: title,
 				  content: content,
 				  allowRobots: false,
