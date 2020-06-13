@@ -7,4 +7,8 @@ extension HTML: ResponseEncodable {
 		let response = Response(status: .ok, headers: .init([("content-type", "text/html; charset=utf-8")]), body: .init(string: rendered))
 		return request.eventLoop.makeSucceededFuture(response)
 	}
+
+	public func renderedView() -> View {
+		View(data: .init(string: render()))
+	}
 }
