@@ -1,33 +1,38 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/14/20.
-//
-
 import Vapor
 import Fluent
 
 struct BlogFrontendController {
 
-	func blogView(req: Request) throws -> EventLoopFuture<View> {
-		struct Context: Encodable {
-			struct PostWithCategory: Encodable {
-				var category: BlogCategoryModel.ViewContext
-				var post: BlogPostModel.ViewContext
+	let blogFrontendViewController = BlogFrontendViewController()
+
+	func blogView(req: Request) throws -> EventLoopFuture<Response> {
+		struct Context: BlogContext {
+			struct PostWithCategory: ArticleComponent {
+				let slug: String
+				let imageSource: String
+				let title: String
+				let date: String
+				let excerpt: String
+				let categoryTitle: String
 			}
 			let title: String
-			let items: [PostWithCategory]
+			let posts: [ArticleComponent]
 		}
 		return BlogPostModel.query(on: req.db)
 			.sort(\.$date, .descending)
 			.with(\.$category)
 			.all()
-			.mapEach { Context.PostWithCategory(category: $0.category.viewContext,
-												post: $0.viewContext) }
+			.mapEach { Context.PostWithCategory(slug: $0.viewContext.slug,
+												imageSource: $0.viewContext.image,
+												title: $0.viewContext.title,
+												date: $0.viewContext.date,
+												excerpt: $0.viewContext.excerpt,
+												categoryTitle: $0.category.viewContext.title) }
 			.flatMap {
-				let context = Context(title: "myPage - Blog", items: $0)
-				return req.view.render("Blog/Frontend/Blog", context)
+				let context = Context(title: "myPage - Blog", posts: $0)
+				return self.blogFrontendViewController
+					.blogView(context)
+					.encodeResponse(for: req)
 		}
 	}
 
