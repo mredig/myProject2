@@ -20,7 +20,7 @@ struct UserFrontendViewController {
 										   siwaPopup: context.popup)
 
 		let indexView = IndexView.frontendIndex(titled: context.title, content: loginComponent.component)
-		return indexView.view
+		return indexView.html
 	}
 
 }

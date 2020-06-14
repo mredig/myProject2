@@ -11,7 +11,7 @@ import Fluent
 struct UserFrontendController {
 	let userFrontendViewController = UserFrontendViewController()
 
-	func loginView(req: Request) throws -> EventLoopFuture<Response> {
+	func loginView(req: Request) throws -> EventLoopFuture<View> {
 		struct Context: LoginContext {
 			let title: String
 			var clientId: String
@@ -28,7 +28,7 @@ struct UserFrontendController {
 							  state: state)
 		return userFrontendViewController
 			.loginView(context)
-			.encodeResponse(for: req)
+			.futureView(on: req)
 	}
 
 	func login(req: Request) throws -> Response {

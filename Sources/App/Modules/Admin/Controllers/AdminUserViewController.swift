@@ -14,7 +14,7 @@ struct AdminUserViewController {
 
 		let indexView = IndexView.adminIndex(titled: context.title,
 											 content: homeComponent.component)
-		return indexView.view
+		return indexView.html
 	}
 
 }

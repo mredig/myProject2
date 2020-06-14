@@ -1,11 +1,25 @@
 import Plot
+import Vapor
 
 typealias HTMLBodyNode = Node<HTML.BodyContext>
 typealias HTMLHeadNode = Node<HTML.HeadContext>
 
 protocol HTMLView {
-	var view: HTML { get }
+	var html: HTML { get }
+	var view: View { get }
+	func futureView(on request: Request) -> EventLoopFuture<View>
 }
+
+extension HTMLView {
+	var view: View {
+		html.view
+	}
+
+	func futureView(on request: Request) -> EventLoopFuture<View> {
+		html.futureView(on: request)
+	}
+}
+
 
 protocol HTMLViewComponent {
 	associatedtype ComponentType

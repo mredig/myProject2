@@ -11,7 +11,7 @@ struct AdminController {
 
 	let adminUserViewController = AdminUserViewController()
 
-	func homeView(req: Request) throws -> EventLoopFuture<Response> {
+	func homeView(req: Request) throws -> EventLoopFuture<View> {
 		let user = try req.auth.require(UserModel.self)
 
 		struct Context: AdminHomeContext {
@@ -23,6 +23,6 @@ struct AdminController {
 		let context = Context(title: "myPage - Admin",
 							  header: "Hi \(user.email)",
 							  message: "Welcome to the CMS!")
-		return adminUserViewController.adminHomeView(context).encodeResponse(for: req)
+		return adminUserViewController.adminHomeView(context).futureView(on: req)
 	}
 }

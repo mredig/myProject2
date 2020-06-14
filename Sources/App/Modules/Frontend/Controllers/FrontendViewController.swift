@@ -13,7 +13,7 @@ struct FrontendViewController {
 		let homeComponent = HomeComponent(header: context.header, message: context.message, email: context.email)
 
 		let indexView = IndexView.frontendIndex(titled: context.title, content: homeComponent.component)
-		return indexView.view
+		return indexView.html
 	}
 
 }

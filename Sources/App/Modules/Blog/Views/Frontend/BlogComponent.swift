@@ -21,7 +21,6 @@ struct BlogComponent: HTMLViewComponent {
 					)
 				)
 			})
-
 		)
 	}
 }

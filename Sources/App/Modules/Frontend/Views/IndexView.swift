@@ -1,4 +1,5 @@
 import Plot
+import Vapor
 
 struct IndexView: HTMLView {
 	let title: String
@@ -66,7 +67,7 @@ struct IndexView: HTMLView {
 				  pageScripts: ["/javascript/admin.js"])
 	}
 
-	var view: HTML {
+	var html: HTML {
 		HTML(
 			.head(
 				.meta(.charset(.utf8)),
@@ -94,6 +95,5 @@ struct IndexView: HTMLView {
 				.script(.src("/javascript/frontend.js"))
 			)
 		)
-
 	}
 }

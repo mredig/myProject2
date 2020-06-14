@@ -19,7 +19,7 @@ struct BlogCategoryAdminController: ViperAdminViewController {
 				title = "Create a New Category"
 			}
 			let indexView = IndexView.adminIndex(titled: title, content: EditCategoryComponent(editingCategory: form).component)
-			return req.eventLoop.future(indexView.view.renderedView())
+			return indexView.futureView(on: req)
 		}
 	}
 
