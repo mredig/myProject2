@@ -13,15 +13,16 @@ struct ListCategoriesComponent: HTMLViewComponent {
 					"Create"
 				)
 			),
-
+			
 			.table(
 				.class("wrapper"),
-				.element(named: "thead", nodes: [
+				.thead(
 					.tr(
 						.th("Title"),
 						.th(.class("actions"), "Actions")
-					)]),
-				.element(named: "tbody", nodes: [
+					)
+				),
+				.tbody(
 					.forEach(categories, { (category: BlogCategoryModel.ViewContext) in
 						.tr(
 							.td(.text(category.title)),
@@ -38,7 +39,7 @@ struct ListCategoriesComponent: HTMLViewComponent {
 							)
 						)
 					})
-				])
+				)
 			)
 		])
 	}
