@@ -7,9 +7,9 @@ struct UserMigration_v1_2_0: Migration {
 			database.schema(UserModel.schema)
 				.field(UserModel.FieldKeys.appleId, .string)
 				.update(),
-			database.schema(UserModel.schema)
-				.unique(on: UserModel.FieldKeys.appleId)
-				.update(),
+//			database.schema(UserModel.schema)
+//				.unique(on: UserModel.FieldKeys.appleId)
+//				.update(),
 		])
 	}
 
