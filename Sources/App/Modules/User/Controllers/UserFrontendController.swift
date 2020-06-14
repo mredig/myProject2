@@ -1,34 +1,22 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael Redig on 5/15/20.
-//
-
 import Vapor
 import Fluent
 
 struct UserFrontendController {
-	let userFrontendViewController = UserFrontendViewController()
 
 	func loginView(req: Request) throws -> EventLoopFuture<View> {
-		struct Context: LoginContext {
-			let title: String
-			var clientId: String
-			var scope: String = "name email"
-			var redirectUrl: String
-			var state: String
-			var popup: Bool = false
-		}
 		let state = [UInt8].random(count: 16).base64
 		req.session.data["state"] = state
-		let context = Context(title: "myPage - Sign In",
-							  clientId: Environment.siwaId,
-							  redirectUrl: Environment.siwaRedirectUrl,
-							  state: state)
-		return userFrontendViewController
-			.loginView(context)
-			.futureView(on: req)
+
+		let loginComponent = LoginComponent(siwaClientId: Environment.siwaId,
+											siwaScope: "name email",
+											siwaRedirectUrl: Environment.siwaRedirectUrl,
+											siwaState: state,
+											siwaPopup: false)
+
+		let indexView = IndexView.frontendIndex(titled: "myPage - Sign In",
+												content: loginComponent.component)
+
+		return indexView.futureView(on: req)
 	}
 
 	func login(req: Request) throws -> Response {

@@ -9,20 +9,14 @@ import Vapor
 
 struct AdminController {
 
-	let adminUserViewController = AdminUserViewController()
-
 	func homeView(req: Request) throws -> EventLoopFuture<View> {
 		let user = try req.auth.require(UserModel.self)
 
-		struct Context: AdminHomeContext {
-			let title: String
-			let header: String
-			let message: String
-		}
+		let adminHomeComponent = AdminHomeComponent(header: "Hi \(user.email)",
+			message: "Welcome to the CMS!")
 
-		let context = Context(title: "myPage - Admin",
-							  header: "Hi \(user.email)",
-							  message: "Welcome to the CMS!")
-		return adminUserViewController.adminHomeView(context).futureView(on: req)
+		let indexView = IndexView.adminIndex(titled: "myPage - Admin", content: adminHomeComponent.component)
+
+		return indexView.futureView(on: req)
 	}
 }
