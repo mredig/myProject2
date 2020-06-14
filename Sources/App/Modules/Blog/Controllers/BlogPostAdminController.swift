@@ -11,6 +11,16 @@ struct BlogPostAdminController: ViperAdminViewController {
 	let editView = "Blog/Admin/Posts/Edit"
 	let listView = "Blog/Admin/Posts/List"
 
+	func listView(req: Request) throws -> EventLoopFuture<View> {
+		return BlogPostModel.query(on: req.db)
+			.all()
+			.mapEach(\.viewContext)
+			.flatMap {
+				let listComponent = ListPostComponent(posts: $0)
+				return IndexView.adminIndex(titled: "Blog Posts", content: listComponent.component).futureView(on: req)
+			}
+	}
+
 	private func generateUniqueAssetLocationKey() -> String {
 		Model.path + UUID().uuidString + ".jpg"
 	}
