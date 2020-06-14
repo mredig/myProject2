@@ -9,8 +9,7 @@ struct BlogComponent: HTMLViewComponent {
 			.id("blog"),
 			.class("wrapper"),
 			.h2("Blog"),
-
-			.group(articles.map {
+			.forEach(articles, {
 				HTMLBodyNode.article(
 					.a(
 						.href("/\($0.post.slug)"),
