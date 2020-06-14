@@ -92,7 +92,7 @@ struct IndexView: HTMLView {
 						content
 					)
 				),
-				.script(.src("/javascript/frontend.js"))
+				pageScripts
 			)
 		)
 	}
