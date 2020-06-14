@@ -9,6 +9,12 @@ struct EditPostComponent: HTMLViewComponent {
 		post != nil
 	}
 
+	private var previewLink: HTMLBodyNode {
+		guard let post = post else { return .empty }
+		guard !post.slug.value.isEmpty else { return .empty }
+		return .a(.href("/\(post.slug.value)"), .target(.blank), "Preview")
+	}
+
 	private var imageInput: Node<HTML.FormContext> {
 		.section(
 			.label(.for("image"), "Image"),
@@ -105,9 +111,7 @@ struct EditPostComponent: HTMLViewComponent {
 						" / Edit",
 						else: " / Create")
 				),
-				.unwrap(post) {
-					.a(.href("/\($0.slug)"), .target(.blank), "Preview")
-				}
+				previewLink
 			),
 
 			.form(
