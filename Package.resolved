@@ -176,8 +176,8 @@
         "package": "Plot",
         "repositoryURL": "https://github.com/mredig/Plot.git",
         "state": {
-          "branch": "master",
-          "revision": "2f79376e683783368ade902fb66c98e43a096d81",
+          "branch": "combo",
+          "revision": "8fbf3b5ecce32301863257fd1fb2672cc937f493",
           "version": null
         }
       },

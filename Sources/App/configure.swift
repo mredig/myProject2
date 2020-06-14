@@ -27,17 +27,17 @@ public func configure(_ app: Application) throws {
 								region: Environment.fsRegion),
 						 as: .awsS3)
 
-	app.views.use(.leaf)
-//	app.leaf.cache.isEnabled = app.environment.isRelease
-	if app.environment.isRelease {
-		app.leaf.cache.isEnabled = false
-		app.leaf.useViperViews()
-	}
-
-	let workingDirectory = app.directory.workingDirectory
-	app.leaf.configuration.rootDirectory = "/"
-	app.leaf.files = ModularViewFiles(workingDirectory: workingDirectory,
-									  fileio: app.fileio)
+//	app.views.use(.leaf)
+////	app.leaf.cache.isEnabled = app.environment.isRelease
+//	if app.environment.isRelease {
+//		app.leaf.cache.isEnabled = false
+//		app.leaf.useViperViews()
+//	}
+//
+//	let workingDirectory = app.directory.workingDirectory
+//	app.leaf.configuration.rootDirectory = "/"
+//	app.leaf.files = ModularViewFiles(workingDirectory: workingDirectory,
+//									  fileio: app.fileio)
 
 	app.sessions.use(.fluent)
 	app.migrations.add(SessionRecord.migration)

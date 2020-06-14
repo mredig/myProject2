@@ -31,6 +31,15 @@ struct BlogPostAdminController: ViperAdminViewController {
 			.map { form.categoryId.options = $0 }
 	}
 
+	func render(req: Request, form: BlogPostEditForm) -> EventLoopFuture<View> {
+		return beforeRender(req: req, form: form)
+			.flatMap { _ in
+				let editPostComponent = EditPostComponent(post: form)
+
+				return IndexView.adminIndex(titled: "Blog Post", content: editPostComponent.component).futureView(on: req)
+		}
+	}
+
 	func beforeCreate(req: Request, model: BlogPostModel, form: BlogPostEditForm) -> EventLoopFuture<BlogPostModel> {
 		var future: EventLoopFuture<BlogPostModel>
 		if let data = form.image.data {
