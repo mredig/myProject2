@@ -14,7 +14,7 @@ struct UserModule: ViperModule {
 		[
 			UserMigration_v1_0_0(),
 			UserMigration_v1_1_0(),
-			UserMigration_v1_2_0(),
+//			UserMigration_v1_2_0(),
 			UserMigrationSeed(),
 		]
 	}
