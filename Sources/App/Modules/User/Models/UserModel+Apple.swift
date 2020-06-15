@@ -11,7 +11,7 @@ extension UserModel {
 				}
 				return UserModel.query(on: req.db)
 					.group(.or) { $0
-//						.filter(\.$appleId == identityToken.subject.value)
+						.filter(\.$appleId == identityToken.subject.value)
 						.filter(\.$email == email)
 				}
 			.first()

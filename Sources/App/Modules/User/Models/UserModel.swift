@@ -23,7 +23,7 @@ final class UserModel: ViperModel {
 	@Field(key: FieldKeys.password)
 	var password: String
 
-//	@Field(key: FieldKeys.appleId)
+	@Field(key: FieldKeys.appleId)
 	var appleId: String?
 
 	init() {}
