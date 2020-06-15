@@ -10,13 +10,22 @@ import JWT
 
 // configures your application
 public func configure(_ app: Application) throws {
-	let postgresConfig = PostgresConfiguration(hostname: Environment.dbHost,
-											   port: 5432,
-											   username: Environment.dbUser,
-											   password: Environment.dbPass,
-											   database: Environment.dbName)
 
-	app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+	print(ProcessInfo.processInfo.environment.map { "'\($0.key)': '\($0.value)'" }.joined(separator: "\n") )
+
+
+	if let postgresURL = Environment.databaseURL {
+		try app.databases.use(.postgres(url: postgresURL), as: .psql)
+	} else {
+		let postgresConfig = PostgresConfiguration(hostname: Environment.dbHost,
+												   port: 5432,
+												   username: Environment.dbUser,
+												   password: Environment.dbPass,
+												   database: Environment.dbName)
+
+		app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+	}
+
 
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
@@ -26,18 +35,6 @@ public func configure(_ app: Application) throws {
 								bucket: Environment.fsName,
 								region: Environment.fsRegion),
 						 as: .awsS3)
-
-//	app.views.use(.leaf)
-////	app.leaf.cache.isEnabled = app.environment.isRelease
-//	if app.environment.isRelease {
-//		app.leaf.cache.isEnabled = false
-//		app.leaf.useViperViews()
-//	}
-//
-//	let workingDirectory = app.directory.workingDirectory
-//	app.leaf.configuration.rootDirectory = "/"
-//	app.leaf.files = ModularViewFiles(workingDirectory: workingDirectory,
-//									  fileio: app.fileio)
 
 	app.sessions.use(.fluent)
 	app.migrations.add(SessionRecord.migration)

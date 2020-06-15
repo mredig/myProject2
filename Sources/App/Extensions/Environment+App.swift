@@ -8,6 +8,11 @@ extension Environment {
 	static let dbPass = get("DB_PASS") ?? "DB_PASS"
 	static let dbName = get("DB_NAME") ?? "DB_NAME"
 
+	static let databaseURL: URL? = {
+		guard let urlString = get("DATABASE_URL") else { return nil }
+		return URL(string: urlString)
+	}()
+
     static let fsName = get("FS_NAME") ?? "FS_NAME"
 	static let fsRegion: Region = {
 		let envVar = get("FS_REGION")
