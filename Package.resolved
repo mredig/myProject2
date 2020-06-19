@@ -174,10 +174,10 @@
       },
       {
         "package": "Plot",
-        "repositoryURL": "https://github.com/mredig/Plot.git",
+        "repositoryURL": "https://github.com/JohnSundell/Plot.git",
         "state": {
-          "branch": "combo",
-          "revision": "8fbf3b5ecce32301863257fd1fb2672cc937f493",
+          "branch": "master",
+          "revision": "3e0d8363975cb9d29e2cb0eed72a381934c92052",
           "version": null
         }
       },

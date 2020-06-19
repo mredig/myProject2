@@ -23,7 +23,8 @@ let package = Package(
 		.package(url: "https://github.com/mredig/MyProjectApi.git", from: "1.0.0"),
 //		.package(name: "MyProjectApi", path: "../MyProjectApi"),
 		.package(url: "https://github.com/vapor/jwt.git", from: "4.0.0-rc"),
-		.package(url: "https://github.com/mredig/Plot.git", .branch("combo")),
+		// 0.8.0 was last release at this time, but didn't contain the changes I contributed.
+		.package(url: "https://github.com/JohnSundell/Plot.git", .branch("master")),
 	],
     targets: [
         .target(
