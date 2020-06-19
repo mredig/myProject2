@@ -37,7 +37,7 @@ struct BlogRouter: ViperRouter {
 		categoryAPIController.setupDeleteRoute(routes: privateCategories)
 
 		let publicPosts = publicApi.grouped("posts")
-		let privatePosts = publicApi.grouped("posts")
+		let privatePosts = privateApi.grouped("posts")
 		let postsApiController = BlogPostApiController()
 		postsApiController.setupListRoute(routes: publicPosts)
 		postsApiController.setupGetRoute(routes: publicPosts)
